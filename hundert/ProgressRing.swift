@@ -15,6 +15,9 @@ struct ProgressRing: View {
     var size: CGFloat = 200
     var strokeWidth: CGFloat = 12
     
+    // Dynamic Type scaling for the point counter
+    @ScaledMetric(relativeTo: .largeTitle) private var counterFontSize: CGFloat = 48
+
     // State für die Animation
     @State private var animatedProgress: CGFloat = 0
     @State private var showSuccessEffects: Bool = false
@@ -64,7 +67,7 @@ struct ProgressRing: View {
             // 3. Text Inhalt in der Mitte
             VStack(spacing: 4) {
                 Text("\(Int(animatedProgress * CGFloat(goal)))") // Animierter Zähler
-                    .font(.system(size: 48, weight: .heavy))
+                    .font(.system(size: counterFontSize, weight: .heavy))
                     .foregroundColor(isComplete ? successColor : .primary)
                     // Zahlen-Übergangseffekt (iOS 16+)
                     .contentTransition(.numericText(value: Double(points)))

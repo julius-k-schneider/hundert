@@ -175,11 +175,16 @@ struct ContentView: View {
 
 struct SoftPulse: ViewModifier {
     @State private var anim = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     func body(content: Content) -> some View {
         content
-            .scaleEffect(anim ? 1.03 : 1.0)
-            .opacity(anim ? 1.0 : 0.85)
-            .animation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true), value: anim)
+            .scaleEffect(anim && !reduceMotion ? 1.03 : 1.0)
+            .opacity(anim && !reduceMotion ? 1.0 : 0.85)
+            .animation(
+                reduceMotion ? nil : .easeInOut(duration: 1.2).repeatForever(autoreverses: true),
+                value: anim
+            )
             .onAppear { anim = true }
     }
 }
