@@ -10,6 +10,7 @@ import UIKit
 
 struct ContentView: View {
     @State private var store = HabitStore()
+    @Environment(\.modelContext) private var modelContext
 
     var goalReached: Bool {
         store.todayPoints >= 100
@@ -162,6 +163,7 @@ struct ContentView: View {
                 .padding(.bottom, 20)
             }
         }
+        .onAppear { store.configure(with: modelContext) }
     }
 }
 

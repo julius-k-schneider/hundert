@@ -6,13 +6,16 @@
 //
 
 import Foundation
+import SwiftData
 
 enum HabitType: String, Codable {
     case positive
     case negative
 }
-struct Habit: Identifiable, Codable {
-    let id: UUID
+
+@Model
+class Habit {
+    var id: UUID
     var title: String
     var points: Int
     var emoji: String
@@ -26,4 +29,3 @@ struct Habit: Identifiable, Codable {
         self.type = type
     }
 }
-
