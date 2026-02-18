@@ -14,6 +14,6 @@ struct hundertApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: Habit.self)
+        .modelContainer(for: [Habit.self, DailyCompletion.self])
     }
 }
