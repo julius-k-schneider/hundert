@@ -6,12 +6,10 @@
 //
 
 import SwiftUI
-import Combine
 import UIKit
 
 struct ContentView: View {
-    // Initialisiert den Store (wie const { ... } = useHabitStore())
-    @StateObject private var store = HabitStore()
+    @State private var store = HabitStore()
 
     var goalReached: Bool {
         store.todayPoints >= 100
