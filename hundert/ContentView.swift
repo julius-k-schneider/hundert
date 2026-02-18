@@ -42,7 +42,9 @@ struct ContentView: View {
                 }
                 .padding()
                 .background(.ultraThinMaterial) // backdrop-blur-lg
-                .overlay(Divider(), alignment: .bottom) // border-b
+                .overlay(alignment: .bottom) {
+                    Divider()
+                } // border-b
 
                 // MARK: - Main Content
                 ScrollView {
@@ -75,11 +77,6 @@ struct ContentView: View {
                                     .fontWeight(.bold)
                                 
                                 Spacer()
-                                
-                                //Button() {
-                                //    Image(systemName: "plus.circle.fill")
-                                        .font(.title2)
-                                //}
                             }
 
                             if store.habits.isEmpty {
@@ -123,7 +120,9 @@ struct ContentView: View {
                                     .fontWeight(.medium)
                                     .foregroundColor(.secondary)
                                 
-                                let totalPoints = store.habits.reduce(0) { $0 + $1.points }
+                                let totalPoints = store.habits.reduce(into: 0) { partialResult, habit in
+                                    partialResult += habit.points
+                                }
                                 Text("\(totalPoints) pts")
                                     .font(.title2)
                                     .fontWeight(.bold)
@@ -194,7 +193,9 @@ struct HabitCard: View {
     let isCompleted: Bool
     let onToggle: () -> Void
     let onRemove: () -> Void
-    
+
+    @State private var showDeleteConfirmation = false
+
     var body: some View {
         HStack {
             Button(action: onToggle) {
@@ -202,7 +203,7 @@ struct HabitCard: View {
                     .font(.title2)
                     .foregroundColor(isCompleted ? .green : .gray)
             }
-            
+
             VStack(alignment: .leading) {
                 Text(habit.title)
                     .fontWeight(.medium)
@@ -212,10 +213,10 @@ struct HabitCard: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            
+
             Spacer()
-            
-            Button(action: onRemove) {
+
+            Button(action: { showDeleteConfirmation = true }) {
                 Image(systemName: "trash")
                     .font(.caption)
                     .foregroundColor(.red.opacity(0.7))
@@ -224,6 +225,10 @@ struct HabitCard: View {
         .padding()
         .background(Color(.secondarySystemBackground))
         .cornerRadius(12)
+        .confirmationDialog("Delete \"\(habit.title)\"?", isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
+            Button("Delete", role: .destructive, action: onRemove)
+            Button("Cancel", role: .cancel) {}
+        }
     }
 }
 

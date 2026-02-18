@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-// Ein einfaches Enum für den Typ, damit wir nicht mit Strings arbeiten müssen
-enum HabitType {
-    case positive
-    case negative
-}
-
 struct AddHabitView: View {
     // Callback Closure (wie in React props.onAdd)
     var onAdd: (String, Int, String, HabitType) -> Void
@@ -253,3 +247,4 @@ struct TypeButton: View {
     }
     .padding()
 }
+
