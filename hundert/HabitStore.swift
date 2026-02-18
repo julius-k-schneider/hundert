@@ -143,6 +143,30 @@ class HabitStore {
         currentStreak = streak
     }
 
+    // MARK: - History
+
+    struct HistoryEntry: Hashable {
+        let date: Date
+        let points: Int
+        let goalMet: Bool
+    }
+
+    func fetchHistory() -> [HistoryEntry] {
+        guard let context = modelContext else { return [] }
+        let all = (try? context.fetch(FetchDescriptor<DailyCompletion>())) ?? []
+
+        let calendar = Calendar.current
+        var pointsByDay: [Date: Int] = [:]
+        for record in all {
+            let day = calendar.startOfDay(for: record.date)
+            pointsByDay[day, default: 0] += record.effectivePoints
+        }
+
+        return pointsByDay
+            .map { HistoryEntry(date: $0.key, points: $0.value, goalMet: $0.value >= 100) }
+            .sorted { $0.date > $1.date }
+    }
+
     // MARK: - Daily reset
 
     private func resetIfNewDay() {
