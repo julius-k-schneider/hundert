@@ -12,7 +12,7 @@ import SwiftData
 class HabitStore {
 
     var habits: [Habit] = []
-    var currentStreak: Int = 5
+    var currentStreak: Int = 0
     var completedHabitIds: Set<UUID> = []
 
     private var modelContext: ModelContext?
@@ -23,6 +23,7 @@ class HabitStore {
         loadHabits()
         resetIfNewDay()
         loadTodayCompletions()
+        recalculateStreak()
     }
 
     // MARK: - Habits
@@ -81,6 +82,7 @@ class HabitStore {
                 try? context.save()
             }
         }
+        recalculateStreak()
     }
 
     private func deleteCompletion(for habitId: UUID, in context: ModelContext) {
@@ -104,6 +106,41 @@ class HabitStore {
         )
         let records = (try? context.fetch(descriptor)) ?? []
         completedHabitIds = Set(records.map { $0.habitId })
+    }
+
+    // MARK: - Streak
+
+    func recalculateStreak() {
+        guard let context = modelContext else { return }
+        let all = (try? context.fetch(FetchDescriptor<DailyCompletion>())) ?? []
+
+        // Sum effectivePoints per calendar day
+        let calendar = Calendar.current
+        var pointsByDay: [Date: Int] = [:]
+        for record in all {
+            let day = calendar.startOfDay(for: record.date)
+            pointsByDay[day, default: 0] += record.effectivePoints
+        }
+
+        // Walk backwards from today, counting consecutive days where goal was met
+        var streak = 0
+        var checkDate = calendar.startOfDay(for: Date())
+
+        // Include today if goal is already met
+        if (pointsByDay[checkDate] ?? 0) >= 100 {
+            streak += 1
+            checkDate = calendar.date(byAdding: .day, value: -1, to: checkDate)!
+        } else {
+            // Today not done yet — start counting from yesterday
+            checkDate = calendar.date(byAdding: .day, value: -1, to: checkDate)!
+        }
+
+        while (pointsByDay[checkDate] ?? 0) >= 100 {
+            streak += 1
+            checkDate = calendar.date(byAdding: .day, value: -1, to: checkDate)!
+        }
+
+        currentStreak = streak
     }
 
     // MARK: - Daily reset
