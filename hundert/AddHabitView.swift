@@ -123,6 +123,8 @@ struct AddHabitFormContent: View {
                                         .scaleEffect(emoji == e ? 1.1 : 1.0)
                                 }
                                 .buttonStyle(.plain)
+                                .accessibilityLabel(e)
+                                .accessibilityAddTraits(emoji == e ? .isSelected : [])
                             }
                         }
                     }
@@ -169,6 +171,8 @@ struct AddHabitFormContent: View {
                                                 .foregroundColor(points == p ? .white : .primary)
                                                 .clipShape(RoundedRectangle(cornerRadius: 8))
                                         }
+                                        .accessibilityLabel("\(p) points")
+                                        .accessibilityAddTraits(points == p ? .isSelected : [])
                                     }
                                 }
                             }
@@ -236,6 +240,7 @@ struct TypeButton: View {
                         .stroke(isSelected ? color : Color.clear, lineWidth: 2)
                 )
         }
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
         .animation(.easeInOut(duration: 0.2), value: isSelected)
     }
 }

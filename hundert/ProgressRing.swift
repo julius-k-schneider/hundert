@@ -84,6 +84,9 @@ struct ProgressRing: View {
             }
         }
         .frame(width: size, height: size)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(points) of \(goal) points\(isComplete ? ", goal reached" : "")")
+        .accessibilityValue("\(Int(progress * 100)) percent")
         .onAppear {
             // Verzögerte Animation beim Laden (wie dein useEffect)
             withAnimation(.easeOut(duration: 1.0)) {

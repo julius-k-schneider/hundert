@@ -203,6 +203,7 @@ struct HabitCard: View {
                     .font(.title2)
                     .foregroundColor(isCompleted ? .green : .gray)
             }
+            .accessibilityLabel(isCompleted ? "Mark \(habit.title) incomplete" : "Mark \(habit.title) complete")
 
             VStack(alignment: .leading) {
                 Text(habit.title)
@@ -221,6 +222,7 @@ struct HabitCard: View {
                     .font(.caption)
                     .foregroundColor(.red.opacity(0.7))
             }
+            .accessibilityLabel("Delete \(habit.title)")
         }
         .padding()
         .background(Color(.secondarySystemBackground))
