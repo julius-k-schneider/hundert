@@ -90,7 +90,7 @@ struct ContentView: View {
                                 .padding(.vertical, 48)
                                 .frame(maxWidth: .infinity)
                                 .background(Color(.secondarySystemBackground)) // bg-muted/50
-                                .cornerRadius(16)
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 16)
                                         .stroke(style: StrokeStyle(lineWidth: 1, dash: [5])) // border-dashed
@@ -143,7 +143,7 @@ struct ContentView: View {
                         }
                         .padding(24)
                         .background(Color(.secondarySystemBackground)) // bg-card
-                        .cornerRadius(16)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
                         .overlay(
                             RoundedRectangle(cornerRadius: 16)
                                 .stroke(Color(.separator), lineWidth: 1)
@@ -224,7 +224,7 @@ struct HabitCard: View {
         }
         .padding()
         .background(Color(.secondarySystemBackground))
-        .cornerRadius(12)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
         .confirmationDialog("Delete \"\(habit.title)\"?", isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
             Button("Delete", role: .destructive, action: onRemove)
             Button("Cancel", role: .cancel) {}

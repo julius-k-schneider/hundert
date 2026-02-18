@@ -27,7 +27,7 @@ struct AddHabitView: View {
             .padding(.vertical, 12)
             .foregroundColor(.white) // text-primary-foreground
             .background(Color.accentColor) // bg-primary
-            .cornerRadius(12) // rounded-xl
+            .clipShape(RoundedRectangle(cornerRadius: 12)) // rounded-xl
             .shadow(color: Color.accentColor.opacity(0.5), radius: 8, x: 0, y: 4) // shadow-glow
         }
         .sheet(isPresented: $showModal) {
@@ -136,9 +136,9 @@ struct AddHabitFormContent: View {
                         TextField("e.g., Morning run", text: $name)
                             .padding()
                             .background(Color(uiColor: .secondarySystemBackground))
-                            .cornerRadius(12)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
-                    
+
                     // 4. POINTS INPUT
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Points (1-50)")
@@ -151,8 +151,8 @@ struct AddHabitFormContent: View {
                                 .multilineTextAlignment(.center)
                                 .frame(width: 80, height: 50)
                                 .background(Color(uiColor: .secondarySystemBackground))
-                                .cornerRadius(12)
-                            
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+
                             // Quick Select Buttons
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
@@ -167,7 +167,7 @@ struct AddHabitFormContent: View {
                                                     points == p ? Color.accentColor : Color(uiColor: .secondarySystemBackground)
                                                 )
                                                 .foregroundColor(points == p ? .white : .primary)
-                                                .cornerRadius(8)
+                                                .clipShape(RoundedRectangle(cornerRadius: 8))
                                         }
                                     }
                                 }
@@ -185,7 +185,7 @@ struct AddHabitFormContent: View {
                             .padding()
                             .background(name.isEmpty ? Color.gray.opacity(0.3) : Color.accentColor)
                             .foregroundColor(.white)
-                            .cornerRadius(12)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                     .disabled(name.isEmpty)
                 }
@@ -230,7 +230,7 @@ struct TypeButton: View {
                 .padding()
                 .background(isSelected ? color.opacity(0.2) : Color(uiColor: .secondarySystemBackground))
                 .foregroundColor(isSelected ? color : .secondary)
-                .cornerRadius(12)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(isSelected ? color : Color.clear, lineWidth: 2)

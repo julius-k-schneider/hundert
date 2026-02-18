@@ -20,7 +20,7 @@ struct StreakBadge: View {
         .padding(.horizontal, 10)
         .padding(.vertical, 6)
         .background(Color.orange.opacity(0.15))
-        .cornerRadius(20)
+        .clipShape(Capsule())
     }
 }
 
